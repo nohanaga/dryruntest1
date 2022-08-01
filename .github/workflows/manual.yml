@@ -16,3 +16,8 @@ jobs:
         run: |
           echo "aaaa" 
           echo "hello, ${{ github.event.inputs.my_hello_input }}"
+          cat << eos > test.txt
+          これはテスト
+          二行目
+          eos
+          cat test.txt
