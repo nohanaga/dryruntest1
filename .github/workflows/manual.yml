@@ -2,6 +2,9 @@ name: Azure ML Manual Trigger Pipeline
 
 on:
  workflow_dispatch:
+ 
+ repository_dispatch:
+   types: [deploy_pipeline_action]
    inputs:
      model_name:
        description: 'model name'
@@ -12,9 +15,6 @@ on:
        required: true
        default: "1"
        
- repository_dispatch:
-   types: [deploy_pipeline_action]
-    
 jobs:
   build:
     runs-on: ubuntu-latest
