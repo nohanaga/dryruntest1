@@ -19,6 +19,7 @@ jobs:
           cat << eos > test.txt
           これはテスト
           二行目
+          三行目：　${{ github.event.inputs.my_hello_input }}
           eos
           cat test.txt
           cat test.txt
