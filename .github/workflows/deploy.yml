@@ -1,7 +1,16 @@
 name: Azure ML Manual Trigger Deploy Pipeline
 
 on:
-  workflow_dispatch:
+ workflow_dispatch:
+   inputs:
+     model_name:
+       description: 'model name'
+       required: true
+       default: 'diabetes_model_oh4ml'
+     model_version:
+       description: 'model version'
+       required: true
+       default: "1"
   
 jobs:
   build:
@@ -15,5 +24,21 @@ jobs:
           creds: '${{secrets.AZURE_CREDENTIALS}}'
       - name: Install ML extension for az command
         run: az extension add --name ml --version 2.4.1
+      - name: Make Managed Deployment YAML
+        run: |
+          cat << EOS > 03_managed_deployment.yml
+          \$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+          name: blue
+          endpoint_name: endpoint1
+          model: azureml:${{github.event.inputs.model_name}}:${{github.event.inputs.model_version}}
+          code_configuration:
+            code: ./scripts
+            scoring_script: score.py
+          environment: 
+            conda_file: ./environments/03_conda_env.yml
+            image: mcr.microsoft.com/azureml/openmpi3.1.2-ubuntu18.04
+          instance_type: Standard_DS2_v2
+          instance_count: 1
+          EOS
       - name: Trigger Azure Machine Learning Pipeline Job
         run: az ml online-deployment create --file 03_managed_deployment.yml --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --workspace-name ${{ secrets.AZURE_ML_WORKSPACE_NAME }} --all-traffic
