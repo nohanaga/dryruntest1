@@ -1,9 +1,9 @@
 name: Azure ML Manual Trigger Deploy Pipeline
 
 on:
-  repository_dispatch:
-    types: [deploy_pipeline_action]
-
+ repository_dispatch:
+   types: [deploy_pipeline_action]
+   
 jobs:
   build:
     runs-on: ubuntu-latest
