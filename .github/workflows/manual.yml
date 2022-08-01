@@ -3,11 +3,14 @@ name: Azure ML Manual Trigger Pipeline
 on:
  workflow_dispatch:
    inputs:
-     my_hello_input:
-       description: 'hello input'
+     model_name:
+       description: 'model name'
        required: true
-       default: 'this is a default hello input'
-
+       default: 'diabetes_model_oh4ml'
+     model_version:
+       description: 'model version'
+       required: true
+       default: 1
 jobs:
   build:
     runs-on: ubuntu-latest
