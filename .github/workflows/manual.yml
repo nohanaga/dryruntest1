@@ -1,6 +1,12 @@
 name: Azure ML Manual Trigger Pipeline
 
-on: [ workflow_dispatch ]
+on:
+ workflow_dispatch:
+   inputs:
+     my_hello_input:
+       description: 'hello input'
+       required: true
+       default: 'this is a default hello input'
 
 jobs:
   build:
@@ -8,4 +14,5 @@ jobs:
     steps:
       - name: Trigger Azure Machine Learning Pipeline Job
         run: |
-          echo "aaaa"
+          echo "aaaa" 
+          echo "hello, ${{ github.event.inputs.my_hello_input }}"
