@@ -5,16 +5,7 @@ on:
  
  repository_dispatch:
    types: [deploy_pipeline_action]
-   inputs:
-     model_name:
-       description: 'model name'
-       required: true
-       default: 'diabetes_model_oh4ml'
-     model_version:
-       description: 'model version'
-       required: true
-       default: "1"
-       
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,7 +16,7 @@ jobs:
           \$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
           name: blue
           endpoint_name: endpoint1
-          model: azureml:${{github.event.inputs.model_name}}:${{github.event.inputs.model_version}}
+          model: azureml:${{github.event.client_payload.model_name}}:${{github.event.client_payload.model_version}}
           code_configuration:
             code: ./scripts
             scoring_script: score.py
