@@ -1,17 +1,9 @@
 name: Azure ML Manual Trigger Deploy Pipeline
 
 on:
- workflow_dispatch:
-   inputs:
-     model_name:
-       description: 'model name'
-       required: true
-       default: 'diabetes_model_oh4ml'
-     model_version:
-       description: 'model version'
-       required: true
-       default: "1"
-  
+  repository_dispatch:
+    types: [deploy_pipeline_action]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +22,7 @@ jobs:
           \$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
           name: blue
           endpoint_name: endpoint1
-          model: azureml:${{github.event.inputs.model_name}}:${{github.event.inputs.model_version}}
+          model: azureml:${{github.event.client_payload.model_name}}:${{github.event.client_payload.model_version}}
           code_configuration:
             code: ./scripts
             scoring_script: score.py
@@ -40,5 +32,5 @@ jobs:
           instance_type: Standard_DS2_v2
           instance_count: 1
           EOS
-      - name: Trigger Azure Machine Learning Pipeline Job
-        run: az ml online-deployment create --file 03_managed_deployment.yml --resource-group ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --workspace-name ${{ secrets.AZURE_ML_WORKSPACE_NAME }} --all-traffic
+      - name: Trigger AML Pipeline Job
+        run: az ml online-deployment create -f 03_managed_deployment.yml -g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} -w ${{ secrets.AZURE_ML_WORKSPACE_NAME }} --all-traffic
