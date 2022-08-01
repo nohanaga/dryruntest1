@@ -13,7 +13,7 @@ on:
        default: "1"
        
  repository_dispatch:
-   types: [backend_automation]
+   types: [deploy_pipeline_event]
     
 jobs:
   build:
