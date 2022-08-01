@@ -21,3 +21,4 @@ jobs:
           二行目
           eos
           cat test.txt
+          cat test.txt
