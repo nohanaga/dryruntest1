@@ -14,13 +14,11 @@ jobs:
     steps:
       - name: Trigger Azure Machine Learning Pipeline Job
         run: |
-          echo "aaaa" 
-          echo "hello, ${{ github.event.inputs.my_hello_input }}"
-          cat << eos > 03_managed_deployment.yml
-          $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+          cat << EOS > 03_managed_deployment.yml
+          \$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
           name: blue
-          endpoint_name: ${{ github.event.inputs.my_hello_input }}
-          model: azureml:diabetes_model_oh4ml@latest
+          endpoint_name: endpoint1
+          model: azureml:${{github.event.inputs.model_name}}:${{github.event.inputs.model_version}}
           code_configuration:
             code: ./scripts
             scoring_script: score.py
@@ -29,5 +27,5 @@ jobs:
             image: mcr.microsoft.com/azureml/openmpi3.1.2-ubuntu18.04
           instance_type: Standard_DS2_v2
           instance_count: 1
-          eos
+          EOS
           cat 03_managed_deployment.yml
