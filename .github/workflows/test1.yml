@@ -19,5 +19,5 @@ jobs:
           print('g='+args.g)
           print('w='+args.w)
           EOS
-          argtest.py --g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --w ${{ secrets.AZURE_ML_WORKSPACE_NAME }}
+          python argtest.py --g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --w ${{ secrets.AZURE_ML_WORKSPACE_NAME }}
           echo "end"
