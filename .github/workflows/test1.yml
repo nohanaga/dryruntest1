@@ -1,0 +1,14 @@
+name: variable test
+
+on:
+ workflow_dispatch:
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test job
+        run: |
+        echo "hana"
+        echo ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
+        echo ${{ secrets.AZURE_ML_WORKSPACE_NAME }}
