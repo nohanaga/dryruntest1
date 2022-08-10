@@ -19,5 +19,5 @@ jobs:
           print('g='+args.g)
           print('w='+args.w)
           EOS
-          python argtest.py --g ${{ github.workflow }} --w ttttt
+          python argtest.py --g "${{ github.workflow }}" --w ttttt
           echo "end"
