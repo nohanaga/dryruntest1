@@ -12,8 +12,8 @@ jobs:
           cat << EOS > argtest.py          
           import argparse
           parser = argparse.ArgumentParser()
-          parser.add_argument('g')
-          parser.add_argument('w')
+          parser.add_argument('--g')
+          parser.add_argument('--w')
           args = parser.parse_args()
 
           print('g='+args.g)
