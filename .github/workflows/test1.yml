@@ -9,6 +9,15 @@ jobs:
     steps:
       - name: test job
         run: |
-          echo "hana"
-          echo ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
-          echo ${{ secrets.AZURE_ML_WORKSPACE_NAME }}
+          cat << EOS > argtest.py          
+          import argparse
+          parser = argparse.ArgumentParser()
+          parser.add_argument('g')
+          parser.add_argument('w')
+          args = parser.parse_args()
+
+          print('g='+args.g)
+          print('w='+args.w)
+          EOS
+          argtest.py --g ${{ secrets.AZURE_RESOURCE_GROUP_NAME }} --w ${{ secrets.AZURE_ML_WORKSPACE_NAME }}
+          echo "end"
